@@ -1,23 +1,24 @@
 package com.escuela.api.Dtos;
 
 public class EstudianteDTO {
+
     private Long id;
     private String nombre;
     private String apellido;
     private String email;
-    private int edad;
+    private String matricula;  // ← Asegurate de tenerlo
 
     public EstudianteDTO() {}
 
-    public EstudianteDTO(Long id, String nombre, String apellido, String email, int edad) {
+    public EstudianteDTO(Long id, String nombre, String apellido, String email, String matricula) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
-        this.edad = edad;
+        this.matricula = matricula;
     }
 
-    // Getters y setters
+    // Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -30,6 +31,7 @@ public class EstudianteDTO {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public int getEdad() { return edad; }
-    public void setEdad(int edad) { this.edad = edad; }
+    public String getMatricula() { return matricula; }
+    public void setMatricula(String matricula) { this.matricula = matricula; }
 }
+

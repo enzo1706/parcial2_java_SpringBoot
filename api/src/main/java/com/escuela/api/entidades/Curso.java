@@ -2,18 +2,19 @@ package com.escuela.api.entidades;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.util.List;
 
 @Entity
 @Data
 public class Curso {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nombre;
     private String descripcion;
+    private boolean activo;
 
     @ManyToOne
     @JoinColumn(name = "profesor_id")
@@ -27,4 +28,5 @@ public class Curso {
     )
     private List<Estudiante> estudiantes;
 }
+
 

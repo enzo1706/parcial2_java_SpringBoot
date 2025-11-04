@@ -1,7 +1,8 @@
 package com.escuela.api.controladores;
 
-import com.escuela.api.entidades.Profesor;
-import com.escuela.api.repositorios.ProfesorRepositorio;
+import com.escuela.api.Dtos.ProfesorDTO;
+import com.escuela.api.servicios.ProfesorService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,29 +11,47 @@ import java.util.List;
 @RequestMapping("/profesores")
 public class ProfesorControlador {
 
-    private final ProfesorRepositorio profesorRepositorio;
+    private final ProfesorService service;
 
-    public ProfesorControlador(ProfesorRepositorio profesorRepositorio) {
-        this.profesorRepositorio = profesorRepositorio;
+    public ProfesorControlador(ProfesorService service) {
+        this.service = service;
     }
 
     @GetMapping
-    public List<Profesor> listar() {
-        return profesorRepositorio.findAll();
-    }
-
-    @PostMapping
-    public Profesor crear(@RequestBody Profesor profesor) {
-        return profesorRepositorio.save(profesor);
+    public ResponseEntity<List<ProfesorDTO>> listar() {
+        try {
+            return ResponseEntity.ok(service.listar());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/{id}")
-    public Profesor obtener(@PathVariable Long id) {
-        return profesorRepositorio.findById(id).orElse(null);
+    public ResponseEntity<ProfesorDTO> obtener(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(service.obtenerPorId(id));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<ProfesorDTO> crear(@RequestBody ProfesorDTO dto) {
+        try {
+            return ResponseEntity.ok(service.guardar(dto));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        profesorRepositorio.deleteById(id);
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        try {
+            service.eliminar(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
+

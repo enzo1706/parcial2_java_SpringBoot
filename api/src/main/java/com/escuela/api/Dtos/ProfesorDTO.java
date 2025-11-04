@@ -1,6 +1,7 @@
 package com.escuela.api.Dtos;
 
 public class ProfesorDTO {
+
     private Long id;
     private String nombre;
     private String apellido;
@@ -17,7 +18,6 @@ public class ProfesorDTO {
         this.materia = materia;
     }
 
-    // Getters y setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -33,4 +33,3 @@ public class ProfesorDTO {
     public String getMateria() { return materia; }
     public void setMateria(String materia) { this.materia = materia; }
 }
-

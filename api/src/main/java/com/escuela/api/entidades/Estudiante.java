@@ -20,4 +20,6 @@ public class Estudiante {
 
     @ManyToMany(mappedBy = "estudiantes")
     private List<Curso> cursos;
+
+    private boolean activo = true;
 }

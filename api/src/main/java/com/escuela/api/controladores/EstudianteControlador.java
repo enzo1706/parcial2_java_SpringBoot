@@ -1,7 +1,8 @@
 package com.escuela.api.controladores;
 
-import com.escuela.api.entidades.Estudiante;
-import com.escuela.api.repositorios.EstudianteRepositorio;
+import com.escuela.api.Dtos.EstudianteDTO;
+import com.escuela.api.servicios.EstudianteService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,29 +11,46 @@ import java.util.List;
 @RequestMapping("/estudiantes")
 public class EstudianteControlador {
 
-    private final EstudianteRepositorio estudianteRepositorio;
+    private final EstudianteService service;
 
-    public EstudianteControlador(EstudianteRepositorio estudianteRepositorio) {
-        this.estudianteRepositorio = estudianteRepositorio;
+    public EstudianteControlador(EstudianteService service) {
+        this.service = service;
     }
 
     @GetMapping
-    public List<Estudiante> listar() {
-        return estudianteRepositorio.findAll();
-    }
-
-    @PostMapping
-    public Estudiante crear(@RequestBody Estudiante estudiante) {
-        return estudianteRepositorio.save(estudiante);
+    public ResponseEntity<List<EstudianteDTO>> listar() {
+        try {
+            return ResponseEntity.ok(service.listar());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/{id}")
-    public Estudiante obtener(@PathVariable Long id) {
-        return estudianteRepositorio.findById(id).orElse(null);
+    public ResponseEntity<EstudianteDTO> obtener(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(service.obtenerPorId(id));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<EstudianteDTO> crear(@RequestBody EstudianteDTO dto) {
+        try {
+            return ResponseEntity.ok(service.guardar(dto));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        estudianteRepositorio.deleteById(id);
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        try {
+            service.eliminar(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

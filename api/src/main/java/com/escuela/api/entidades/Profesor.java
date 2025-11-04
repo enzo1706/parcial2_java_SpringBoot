@@ -2,12 +2,12 @@ package com.escuela.api.entidades;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.util.List;
 
 @Entity
 @Data
 public class Profesor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,9 +16,9 @@ public class Profesor {
     private String apellido;
     private String email;
     private String materia;
+    private boolean activo;
 
     @OneToMany(mappedBy = "profesor")
     private List<Curso> cursos;
-
 }
 
